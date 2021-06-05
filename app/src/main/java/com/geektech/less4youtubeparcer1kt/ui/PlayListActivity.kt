@@ -26,7 +26,6 @@ class PlayListActivity : BaseActivity(R.layout.activity_play_list), OnItemClickL
     }
 
     private fun setupRecyclerView() {
-
         swipe_refresh_layout.isRefreshing = true
         playListAdapter = PlayListAdapter(this, list, this)
         recycler_view.apply {
