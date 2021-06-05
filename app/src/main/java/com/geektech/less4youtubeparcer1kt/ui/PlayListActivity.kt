@@ -4,6 +4,7 @@ import android.content.Intent
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.geektech.less4youtubeparcer1kt.R
 import com.geektech.less4youtubeparcer1kt.`object`.Constants
@@ -33,6 +34,12 @@ class PlayListActivity : BaseActivity(R.layout.activity_play_list), OnItemClickL
             layoutManager = LinearLayoutManager(this@PlayListActivity)
             adapter = playListAdapter
         }
+        recycler_view.addItemDecoration(
+            DividerItemDecoration(
+                this,
+                DividerItemDecoration.VERTICAL
+            )
+        )
     }
 
     override fun setLiveData() {
