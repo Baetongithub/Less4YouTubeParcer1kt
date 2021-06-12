@@ -23,7 +23,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/angel" />
+                android:src="@mipmap/angel"
+                tools:ignore="ContentDescription" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
