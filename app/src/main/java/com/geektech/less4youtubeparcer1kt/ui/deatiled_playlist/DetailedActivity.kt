@@ -1,6 +1,8 @@
 package com.geektech.less4youtubeparcer1kt.ui.deatiled_playlist
 
 import android.annotation.SuppressLint
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.geektech.less4youtubeparcer1kt.R
 import com.geektech.less4youtubeparcer1kt.`object`.Constants
@@ -8,6 +10,7 @@ import com.geektech.less4youtubeparcer1kt.base.BaseActivity
 import com.geektech.less4youtubeparcer1kt.extensions.toast
 import com.geektech.less4youtubeparcer1kt.extensions.visible
 import com.geektech.less4youtubeparcer1kt.model.playlistItems.Items
+import com.geektech.less4youtubeparcer1kt.utils.CheckConnectionState
 import com.geektech.less4youtubeparcer1kt.utils.GetItemDesc
 import com.geektech.less4youtubeparcer1kt.utils.Status
 import kotlinx.android.synthetic.main.activity_detailed.*
@@ -70,19 +73,24 @@ class DetailedActivity : BaseActivity(R.layout.activity_detailed), GetItemDesc {
     }
 
     override fun showConnectionState() {
-//
-//        val ccs = CheckConnectionState(application)
-//        ccs.observe(this, { isConnected ->
-//            if (isConnected) {
-//                tv_no_internet.visibility = GONE
-//                image_ccs.visibility = GONE
-//                button.visibility = GONE
-//            } else {
-//                tv_no_internet.visibility = VISIBLE
-//                image_ccs.visibility = VISIBLE
-//                button.visibility = VISIBLE
-//            }
-//        })
+
+        val ccs = CheckConnectionState(application)
+        ccs.observe(this, { isConnected ->
+            if (isConnected) {
+                rl_connection.visibility = GONE
+                app_bar.visibility = VISIBLE
+                recycler_view_detailed.visibility = VISIBLE
+                tv_detailed_item_count.visibility = VISIBLE
+                fab.visibility = VISIBLE
+            } else {
+                rl_connection.visibility = VISIBLE
+                app_bar.visibility = GONE
+                recycler_view_detailed.visibility = GONE
+                tv_detailed_item_count.visibility = GONE
+                fab.visibility = GONE
+
+            }
+        })
     }
 
     private fun onItemClick(items: Items) {
