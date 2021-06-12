@@ -1,56 +1,70 @@
-package com.geektech.less4youtubeparcer1kt.ui
+package com.geektech.less4youtubeparcer1kt.ui.playlist
 
 import android.content.Intent
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.geektech.less4youtubeparcer1kt.R
 import com.geektech.less4youtubeparcer1kt.`object`.Constants
 import com.geektech.less4youtubeparcer1kt.base.BaseActivity
-import com.geektech.less4youtubeparcer1kt.model.Items
+import com.geektech.less4youtubeparcer1kt.extensions.toast
+import com.geektech.less4youtubeparcer1kt.extensions.visible
+import com.geektech.less4youtubeparcer1kt.model.playlist.Items
+import com.geektech.less4youtubeparcer1kt.ui.deatiled_playlist.DetailedActivity
 import com.geektech.less4youtubeparcer1kt.utils.CheckConnectionState
-import com.geektech.less4youtubeparcer1kt.utils.OnItemClickListener
+import com.geektech.less4youtubeparcer1kt.utils.Status
 import kotlinx.android.synthetic.main.activity_play_list.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class PlayListActivity : BaseActivity(R.layout.activity_play_list), OnItemClickListener {
+class PlayListActivity : BaseActivity(R.layout.activity_play_list) {
 
     private val list = mutableListOf<Items>()
-    private var playListAdapter: PlayListAdapter? = null
-    private var viewModel: MainViewModel? = null
+    private val playListAdapter: PlayListAdapter by lazy {
+        PlayListAdapter(
+            this,
+            list,
+            this::onHolderClick
+        )
+    }
+    private val viewModel: MainViewModel by viewModel()
 
     override fun setUpUI() {
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
         swipe_refresh_layout.setOnRefreshListener { setupRecyclerView() }
     }
 
     private fun setupRecyclerView() {
         swipe_refresh_layout.isRefreshing = true
-        playListAdapter = PlayListAdapter(this, list, this)
         recycler_view.apply {
             swipe_refresh_layout.isRefreshing = false
             layoutManager = LinearLayoutManager(this@PlayListActivity)
             adapter = playListAdapter
         }
-        recycler_view.addItemDecoration(
-            DividerItemDecoration(
-                this,
-                DividerItemDecoration.VERTICAL
-            )
-        )
     }
 
     override fun setLiveData() {
+
+        viewModel.loading.observe(this, {
+            progress_bar.visible = it
+        })
+
         swipe_refresh_layout.isRefreshing = true
-        viewModel?.loadAllPlaylist()?.observe(this, { response ->
-            response?.items?.let {
-                swipe_refresh_layout.isRefreshing = false
-                list.addAll(it)
+        viewModel.loadAllPlaylist().observe(this, { response ->
+            when (response.status) {
+                Status.SUCCESS -> {
+                    response?.data?.items.let {
+                        it?.let { it1 -> list.addAll(it1) }
+                        swipe_refresh_layout.isRefreshing = false
+                        viewModel.loading.postValue(false)
+                    }
+                    setupRecyclerView()
+                    playListAdapter.notifyDataSetChanged()
+
+                }
+                Status.ERROR -> response.message?.let { toast(it) }
+
+                Status.LOADING -> viewModel.loading.postValue(true)
             }
-            setupRecyclerView()
-            playListAdapter?.notifyDataSetChanged()
         })
     }
 
@@ -77,8 +91,10 @@ class PlayListActivity : BaseActivity(R.layout.activity_play_list), OnItemClickL
         })
     }
 
-    override fun onClick(items: Items) {
-        val intent = Intent(this, MainActivity::class.java)
+    private fun onHolderClick(items: Items) {
+        val intent = Intent(this, DetailedActivity::class.java)
+            .putExtra(Constants.KEY_TITLE, items.snippet.title)
+            .putExtra(Constants.KEY_ITEM_COUNT, items.contentDetails.itemCount)
             .putExtra(Constants.ID, items.id)
         startActivity(intent)
     }

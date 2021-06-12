@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -14,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Less4YouTubeParcer1kt"
         tools:ignore="AllowBackup">
-        <activity android:name=".ui.PlayListActivity">
+        <activity android:name=".ui.playlist.PlayListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,7 +25,7 @@
         <activity
             android:name=".base.BaseActivity"
             tools:ignore="Instantiatable" />
-        <activity android:name=".ui.MainActivity">
+        <activity android:name=".ui.deatiled_playlist.DetailedActivity">
         </activity>
 
         <meta-data

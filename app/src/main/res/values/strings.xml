@@ -6,4 +6,6 @@
     <string name="try_again">Try again</string>
     <string name="video_series">video series</string>
     <string name="playlist">Playlist</string>
+    <string name="published_at">Published at</string>
+    <string name="description">Description</string>
 </resources>

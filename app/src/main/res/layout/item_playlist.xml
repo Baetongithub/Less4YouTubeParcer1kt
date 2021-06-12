@@ -25,24 +25,28 @@
                 android:scaleType="centerCrop"
                 android:src="@mipmap/angel" />
 
-            <View
-                android:id="@+id/view1"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="24dp"
-                android:layout_gravity="bottom"
-                android:background="@drawable/backgr_view_playlist" />
+                android:layout_gravity="bottom">
 
+                <View
+                    android:id="@+id/view1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentBottom="true"
+                    android:background="@drawable/backgr_view_playlist" />
+
+                <TextView
+                    android:id="@+id/it_tv_playlist"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    tools:text="@string/playlist" />
+
+            </RelativeLayout>
         </androidx.cardview.widget.CardView>
-
-        <TextView
-            android:id="@+id/it_tv_playlist"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerInParent="true"
-            android:elevation="10dp"
-            android:textColor="@color/white"
-            tools:text="@string/playlist" />
 
     </RelativeLayout>
 
@@ -57,6 +61,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             android:textSize="16sp"
+            android:fontFamily="@font/fjalla_one"
             tools:text="Title" />
 
         <TextView
@@ -65,6 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/it_tv_title"
             android:textColor="@color/black"
+            android:layout_marginTop="5dp"
             tools:text="32 video series" />
 
     </RelativeLayout>
