@@ -37,7 +37,11 @@ class DetailedActivity : BaseActivity(R.layout.activity_detailed), GetItemDesc {
 
         toolbar_layout.setCollapsedTitleTextColor(resources.getColor(R.color.red_dark))
         toolbar_layout.setExpandedTitleColor(resources.getColor(R.color.black))
+        toolbar_layout.setExpandedTitleMargin(40, 0, 0, 310)
+
         fab.setColorFilter(resources.getColor(R.color.white))
+
+        tv_detailed_back.setOnClickListener { finish() }
     }
 
     override fun setLiveData() {

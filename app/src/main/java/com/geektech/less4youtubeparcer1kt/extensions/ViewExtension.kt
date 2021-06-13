@@ -1,10 +1,12 @@
 package com.geektech.less4youtubeparcer1kt.extensions
 
+import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 
 fun ImageView.glide(url: String) {
     Glide.with(this).load(url).into(this)
@@ -31,3 +33,7 @@ var View.gone: Boolean
     set(value) {
         visibility = if (value) View.GONE else View.VISIBLE
     }
+
+fun View.snackBar(txt: String) {
+    Snackbar.make(this, txt, Snackbar.LENGTH_SHORT).show()
+}

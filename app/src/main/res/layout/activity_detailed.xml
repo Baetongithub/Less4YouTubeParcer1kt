@@ -23,7 +23,7 @@
             android:scrollbarSize="@dimen/text_size"
             app:collapsedTitleGravity="center_horizontal"
             app:contentScrim="?attr/colorPrimary"
-            app:expandedTitleGravity="top|start"
+            app:expandedTitleGravity="start"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:toolbarId="@+id/toolbar">
 
@@ -46,6 +46,18 @@
                 android:textColor="@color/black"
                 android:textSize="13sp"
                 app:layout_collapseMode="parallax" />
+
+            <TextView
+                android:id="@+id/tv_detailed_back"
+                android:layout_width="wrap_content"
+                android:layout_height="?attr/actionBarSize"
+                android:drawablePadding="@dimen/drawablePAdding"
+                android:gravity="center_vertical"
+                android:text="@string/back"
+                android:textColor="@color/red_dark"
+                android:textSize="16sp"
+                app:drawableStartCompat="@drawable/ic_baseline_chevron_left_24"
+                app:layout_collapseMode="pin" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
@@ -94,15 +106,14 @@
         <!-- No Internet Connection -->
         <TextView
             android:id="@+id/tv_no_internet"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/image_ccs"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="108dp"
-            android:layout_marginTop="434dp"
+            android:layout_alignStart="@id/image_ccs"
+            android:layout_alignEnd="@+id/image_ccs"
+            android:layout_marginTop="@dimen/text_ccs_margin"
             android:fontFamily="@font/fjalla_one"
-            android:gravity="top"
+            android:gravity="center_horizontal"
             android:text="@string/no_internet_connection" />
 
         <Button
@@ -110,8 +121,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_no_internet"
-            android:layout_margin="30dp"
-            android:layout_marginTop="434dp"
+            android:layout_margin="@dimen/text_ccs_margin"
             android:backgroundTint="@android:color/holo_red_dark"
             android:text="@string/try_again"
             android:textAllCaps="false" />
