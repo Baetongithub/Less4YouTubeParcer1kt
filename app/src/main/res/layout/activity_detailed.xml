@@ -87,7 +87,8 @@
         android:backgroundTint="@android:color/holo_red_dark"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|end"
-        app:srcCompat="@drawable/ic_play_arrow_24" />
+        app:srcCompat="@drawable/ic_play_arrow_24"
+        tools:ignore="ContentDescription" />
 
     <RelativeLayout
         android:id="@+id/rl_connection"
@@ -101,7 +102,8 @@
             android:layout_height="200dp"
             android:layout_marginTop="200dp"
             android:scaleType="center"
-            android:src="@mipmap/image" />
+            android:src="@mipmap/image"
+            tools:ignore="ContentDescription" />
 
         <!-- No Internet Connection -->
         <TextView

@@ -3,6 +3,7 @@ package com.geektech.less4youtubeparcer1kt.ui.deatiled_playlist
 import android.annotation.SuppressLint
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.geektech.less4youtubeparcer1kt.R
 import com.geektech.less4youtubeparcer1kt.`object`.Constants
@@ -35,11 +36,11 @@ class DetailedActivity : BaseActivity(R.layout.activity_detailed), GetItemDesc {
         tv_detailed_item_count.text =
             intent.getStringExtra(Constants.KEY_ITEM_COUNT) + " " + getString(R.string.video_series)
 
-        toolbar_layout.setCollapsedTitleTextColor(resources.getColor(R.color.red_dark))
-        toolbar_layout.setExpandedTitleColor(resources.getColor(R.color.black))
+        toolbar_layout.setCollapsedTitleTextColor(ContextCompat.getColor(this, R.color.red_dark))
+        toolbar_layout.setExpandedTitleColor(ContextCompat.getColor(this, R.color.black))
         toolbar_layout.setExpandedTitleMargin(40, 0, 0, 310)
 
-        fab.setColorFilter(resources.getColor(R.color.white))
+        fab.setColorFilter(ContextCompat.getColor(this, R.color.white))
 
         tv_detailed_back.setOnClickListener { finish() }
     }
