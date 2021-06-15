@@ -14,8 +14,7 @@
         android:layout_marginTop="200dp"
         android:scaleType="center"
         android:src="@mipmap/image"
-        android:visibility="gone"
-        tools:ignore="ContentDescription" />
+        android:visibility="gone" />
 
     <!-- No Internet Connection -->
     <TextView

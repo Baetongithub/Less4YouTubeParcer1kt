@@ -117,9 +117,8 @@ class PlayerActivity : BaseActivity(R.layout.activity_player) {
 
     override fun onPause() {
         super.onPause()
-        if (Util.SDK_INT < 24) {
+        if (Util.SDK_INT < 24)
             releasePlayer()
-        }
     }
 
     override fun setLiveData() {
