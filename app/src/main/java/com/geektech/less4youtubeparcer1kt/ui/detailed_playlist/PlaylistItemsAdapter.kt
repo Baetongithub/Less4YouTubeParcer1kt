@@ -1,4 +1,4 @@
-package com.geektech.less4youtubeparcer1kt.ui.deatiled_playlist
+package com.geektech.less4youtubeparcer1kt.ui.detailed_playlist
 
 import android.annotation.SuppressLint
 import android.view.View
@@ -32,7 +32,7 @@ class PlaylistItemsAdapter(
         return list.size
     }
 
-    class TheViewHolder(itemView: View, var getItemDesc: GetItemDesc) :
+    class TheViewHolder(itemView: View, private var getItemDesc: GetItemDesc) :
         RecyclerView.ViewHolder(itemView) {
         @SuppressLint("SetTextI18n")
         fun onBind(items: Items) {

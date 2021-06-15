@@ -14,7 +14,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Less4YouTubeParcer1kt"
-        tools:ignore="AllowBackup">
+        android:usesCleartextTraffic="true"
+        tools:ignore="AllowBackup"
+        tools:targetApi="m">
         <activity android:name=".ui.playlist.PlayListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,7 +27,9 @@
         <activity
             android:name=".base.BaseActivity"
             tools:ignore="Instantiatable" />
-        <activity android:name=".ui.deatiled_playlist.DetailedActivity">
+        <activity android:name=".ui.detailed_playlist.DetailedActivity">
+        </activity>
+        <activity android:name=".ui.video_player.PlayerActivity">
         </activity>
 
         <meta-data

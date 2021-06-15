@@ -1,6 +1,7 @@
-package com.geektech.less4youtubeparcer1kt.ui.deatiled_playlist
+package com.geektech.less4youtubeparcer1kt.ui.detailed_playlist
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.core.content.ContextCompat
@@ -11,6 +12,7 @@ import com.geektech.less4youtubeparcer1kt.base.BaseActivity
 import com.geektech.less4youtubeparcer1kt.extensions.toast
 import com.geektech.less4youtubeparcer1kt.extensions.visible
 import com.geektech.less4youtubeparcer1kt.model.playlistItems.Items
+import com.geektech.less4youtubeparcer1kt.ui.video_player.PlayerActivity
 import com.geektech.less4youtubeparcer1kt.utils.CheckConnectionState
 import com.geektech.less4youtubeparcer1kt.utils.GetItemDesc
 import com.geektech.less4youtubeparcer1kt.utils.Status
@@ -41,14 +43,14 @@ class DetailedActivity : BaseActivity(R.layout.activity_detailed), GetItemDesc {
         toolbar_layout.setExpandedTitleMargin(40, 0, 0, 310)
 
         fab.setColorFilter(ContextCompat.getColor(this, R.color.white))
+        fab.setOnClickListener { toast(getString(R.string.play_all)) }
 
         tv_detailed_back.setOnClickListener { finish() }
     }
 
     override fun setLiveData() {
-        viewModel.loading.observe(this, {
-            progress_bar.visible = it
-        })
+        viewModel.loading.observe(this, { progress_bar.visible = it })
+
         val id = intent.getStringExtra(Constants.ID)
         id?.let { it ->
             viewModel.loadPlaylistItems(it).observe(this, { response ->
@@ -98,11 +100,15 @@ class DetailedActivity : BaseActivity(R.layout.activity_detailed), GetItemDesc {
         })
     }
 
-    private fun onItemClick(items: Items) {
-        toast(items.contentDetails.videoId)
-    }
-
     override fun getDesc(items: Items) {
         tv_toolbar_description.text = items.snippet.description
+    }
+
+    private fun onItemClick(items: Items) {
+        val intent = Intent(this, PlayerActivity::class.java)
+            .putExtra(Constants.VIDEO_ID, items.contentDetails.videoId)
+            .putExtra(Constants.KEY_TITLE_PLAYER, items.snippet.title)
+            .putExtra(Constants.KEY_DESC_PLAYER, items.snippet.description)
+        startActivity(intent)
     }
 }

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.video_player.PlayerActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_player"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize">
+
+        <TextView
+            android:id="@+id/tv_player_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:drawablePadding="@dimen/drawable_padding_back"
+            android:gravity="center"
+            android:text="@string/back"
+            android:textColor="@color/red_dark"
+            android:textSize="16sp"
+            app:drawableStartCompat="@drawable/ic_baseline_chevron_left_24" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            android:paddingStart="@dimen/fab_margin"
+            android:paddingEnd="@dimen/toolbar_title_margin"
+            android:text="@string/playlist"
+            android:textColor="@color/red_dark"
+            android:textSize="18sp" />
+    </androidx.appcompat.widget.Toolbar>
+
+    <com.google.android.exoplayer2.ui.PlayerView
+        android:id="@+id/video_view_player"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_marginTop="?attr/actionBarSize" />
+
+    <TextView
+        android:id="@+id/tv_player_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/video_view_player"
+        android:layout_margin="@dimen/text_margin"
+        android:layout_marginTop="30dp"
+        android:fontFamily="@font/fjalla_one"
+        android:text="@string/title"
+        android:textAllCaps="true"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/tv_player_download"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_player_title"
+        android:layout_margin="@dimen/text_margin"
+        android:background="@drawable/backgr_download_button"
+        android:drawablePadding="@dimen/download_ic_padding"
+        android:gravity="center"
+        android:padding="@dimen/download_ic_padding"
+        android:text="@string/download"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="15sp"
+        app:drawableEndCompat="@drawable/ic_baseline_download_for_offline_24" />
+
+    <TextView
+        android:id="@+id/tv_player_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_player_download"
+        android:layout_margin="@dimen/text_margin"
+        android:autoLink="all"
+        android:text="@string/description"
+        android:textColorLink="@color/link_color"
+        android:textSize="15sp" />
+
+</RelativeLayout>

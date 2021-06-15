@@ -10,7 +10,7 @@ import com.geektech.less4youtubeparcer1kt.base.BaseActivity
 import com.geektech.less4youtubeparcer1kt.extensions.toast
 import com.geektech.less4youtubeparcer1kt.extensions.visible
 import com.geektech.less4youtubeparcer1kt.model.playlist.Items
-import com.geektech.less4youtubeparcer1kt.ui.deatiled_playlist.DetailedActivity
+import com.geektech.less4youtubeparcer1kt.ui.detailed_playlist.DetailedActivity
 import com.geektech.less4youtubeparcer1kt.utils.CheckConnectionState
 import com.geektech.less4youtubeparcer1kt.utils.Status
 import kotlinx.android.synthetic.main.activity_play_list.*

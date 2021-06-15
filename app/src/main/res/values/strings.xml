@@ -9,4 +9,7 @@
     <string name="published_at">Published at</string>
     <string name="description">Description</string>
     <string name="back">Back</string>
+    <string name="title">Title</string>
+    <string name="download">Download</string>
+    <string name="play_all">Play all</string>
 </resources>
