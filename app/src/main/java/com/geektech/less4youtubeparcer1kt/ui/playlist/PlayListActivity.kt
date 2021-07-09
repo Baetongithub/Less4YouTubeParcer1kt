@@ -1,15 +1,14 @@
 package com.geektech.less4youtubeparcer1kt.ui.playlist
 
 import android.content.Intent
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.geektech.less4youtubeparcer1kt.R
 import com.geektech.less4youtubeparcer1kt.`object`.Constants
 import com.geektech.less4youtubeparcer1kt.base.BaseActivity
+import com.geektech.less4youtubeparcer1kt.extensions.gone
 import com.geektech.less4youtubeparcer1kt.extensions.toast
 import com.geektech.less4youtubeparcer1kt.extensions.visible
-import com.geektech.less4youtubeparcer1kt.model.playlist.Items
+import com.geektech.less4youtubeparcer1kt.model.playlist.ItemsPlaylist
 import com.geektech.less4youtubeparcer1kt.ui.detailed_playlist.DetailedActivity
 import com.geektech.less4youtubeparcer1kt.utils.CheckConnectionState
 import com.geektech.less4youtubeparcer1kt.utils.Status
@@ -18,7 +17,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PlayListActivity : BaseActivity(R.layout.activity_play_list) {
 
-    private val list = mutableListOf<Items>()
+    private val list = mutableListOf<ItemsPlaylist>()
     private val playListAdapter: PlayListAdapter by lazy {
         PlayListAdapter(
             this,
@@ -71,31 +70,20 @@ class PlayListActivity : BaseActivity(R.layout.activity_play_list) {
     override fun showConnectionState() {
 
         val ccs = CheckConnectionState(application)
-        ccs.observe(this, { isConnected ->
-            if (isConnected) {
-                swipe_refresh_layout.isRefreshing = true
-                tv_no_internet.visibility = GONE
-                image_ccs.visibility = GONE
-                button.visibility = GONE
-                recycler_view.visibility = VISIBLE
-                if (recycler_view.visibility == VISIBLE)
-                    swipe_refresh_layout.isRefreshing = false
-
-            } else {
+        ccs.observe(this, {
+            swipe_refresh_layout.isRefreshing = it
+            tv_no_internet.gone = it
+            image_ccs.gone = it
+            button.gone = it
+            recycler_view.visible = it
+            if (recycler_view.visible)
                 swipe_refresh_layout.isRefreshing = false
-                tv_no_internet.visibility = VISIBLE
-                image_ccs.visibility = VISIBLE
-                button.visibility = VISIBLE
-                recycler_view.visibility = GONE
-            }
         })
     }
 
-    private fun onHolderClick(items: Items) {
+    private fun onHolderClick(itemsPlaylist: ItemsPlaylist) {
         val intent = Intent(this, DetailedActivity::class.java)
-            .putExtra(Constants.KEY_TITLE, items.snippet.title)
-            .putExtra(Constants.KEY_ITEM_COUNT, items.contentDetails.itemCount)
-            .putExtra(Constants.ID, items.id)
+            .putExtra(Constants.ITEMS_PLAYLIST, itemsPlaylist)
         startActivity(intent)
     }
 }

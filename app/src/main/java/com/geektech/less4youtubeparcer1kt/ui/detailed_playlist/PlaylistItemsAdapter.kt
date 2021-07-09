@@ -1,6 +1,5 @@
 package com.geektech.less4youtubeparcer1kt.ui.detailed_playlist
 
-import android.annotation.SuppressLint
 import android.view.View
 import android.view.View.GONE
 import android.view.ViewGroup
@@ -34,13 +33,12 @@ class PlaylistItemsAdapter(
 
     class TheViewHolder(itemView: View, private var getItemDesc: GetItemDesc) :
         RecyclerView.ViewHolder(itemView) {
-        @SuppressLint("SetTextI18n")
         fun onBind(items: Items) {
             itemView.view1.visibility = GONE
-            itemView.it_tv_title.text = items.snippet.title
-            val date: String = items.snippet.publishedAt.substring(0, 10)
+            itemView.it_tv_title.text = items.snippet?.title
+            val date: String? = items.snippet?.publishedAt?.substring(0, 10)
             itemView.it_tv_video_series.text = date
-            itemView.it_image_view.glide(items.snippet.thumbnails.maxres.url)
+            items.snippet?.thumbnails?.maxres?.url?.let { itemView.it_image_view.glide(it) }
 
             getItemDesc.getDesc(items)
         }

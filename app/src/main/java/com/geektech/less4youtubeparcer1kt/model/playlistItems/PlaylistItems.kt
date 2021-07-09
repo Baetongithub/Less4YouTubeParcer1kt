@@ -1,57 +1,64 @@
 package com.geektech.less4youtubeparcer1kt.model.playlistItems
 
+import java.io.Serializable
+
 
 data class PlaylistItems(
-    var items: List<Items>,
-    var id: String
+    var items: List<Items>? = null,
+    var id: String? = null
 )
 
 data class Items(
-    var id: String,
-    var playlistId: String,
-    var snippet: Snippet,
-    var contentDetails: ContentDetails
-)
+    var id: String? = null,
+    var playlistId: String? = null,
+    var snippet: Snippet? = null,
+    var contentDetails: ContentDetails? = null
+) : Serializable
 
 data class Snippet(
-    var publishedAt: String,
-    var channelId: String,
-    var title: String,
-    var description: String,
-    var thumbnails: Thumbnails,
-    var channelTitle: String,
-    var playlistId: String,
-    var position: Int
-)
+    var publishedAt: String? = null,
+    var channelId: String? = null,
+    var title: String? = null,
+    var description: String? = null,
+    var thumbnails: Thumbnails? = null,
+    var channelTitle: String? = null,
+    var playlistId: String? = null,
+    var position: Int? = null
+) : Serializable
 
 data class ContentDetails(
-    var startAt: String,
-    var endAt: String,
-    var videoId: String
-)
+    var startAt: String? = null,
+    var endAt: String? = null,
+    var videoId: String? = null
+) : Serializable
 
-data class Thumbnails(var default: Default, var high: High, var medium: Medium, var maxres: Maxres)
+data class Thumbnails(
+    var default: Default? = null,
+    var high: High? = null,
+    var medium: Medium? = null,
+    var maxres: Maxres? = null
+) : Serializable
 
 data class Default(
-    var url: String,
-    var width: Int,
-    var height: Int
-)
+    var url: String? = null,
+    var width: Int? = null,
+    var height: Int? = null
+) : Serializable
 
 data class High(
-    var url: String,
-    var width: Int,
-    var height: Int
-)
+    var url: String? = null,
+    var width: Int? = null,
+    var height: Int? = null
+) : Serializable
 
 data class Medium(
-    var url: String,
-    var width: Int,
-    var height: Int
-)
+    var url: String? = null,
+    var width: Int? = null,
+    var height: Int? = null
+) : Serializable
 
 data class Maxres(
-    var url: String,
-    var width: Int,
-    var height: Int
-)
+    var url: String? = null,
+    var width: Int? = null,
+    var height: Int? = null
+) : Serializable

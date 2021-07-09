@@ -2,7 +2,9 @@ package com.geektech.less4youtubeparcer1kt.ui.video_player
 
 import android.annotation.SuppressLint
 import android.util.SparseArray
-import android.view.View
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import at.huber.youtubeExtractor.VideoMeta
 import at.huber.youtubeExtractor.YouTubeExtractor
 import at.huber.youtubeExtractor.YtFile
@@ -10,6 +12,7 @@ import com.geektech.less4youtubeparcer1kt.R
 import com.geektech.less4youtubeparcer1kt.`object`.Constants
 import com.geektech.less4youtubeparcer1kt.base.BaseActivity
 import com.geektech.less4youtubeparcer1kt.extensions.toast
+import com.geektech.less4youtubeparcer1kt.model.playlistItems.Items
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.MediaSource
@@ -29,8 +32,11 @@ class PlayerActivity : BaseActivity(R.layout.activity_player) {
     private var playbackPosition: Long = 0
 
     override fun setUpUI() {
-        tv_player_title.text = intent.getStringExtra(Constants.KEY_TITLE_PLAYER)
-        tv_player_description.text = intent.getStringExtra(Constants.KEY_DESC_PLAYER)
+        val items = intent.getSerializableExtra(Constants.ITEMS_DETAILED) as Items
+
+
+        tv_player_title.text = items.snippet?.title
+        tv_player_description.text = items.snippet?.description
 
         tv_player_back.setOnClickListener { finish() }
 
@@ -43,38 +49,40 @@ class PlayerActivity : BaseActivity(R.layout.activity_player) {
         player = SimpleExoPlayer.Builder(this).build()
         video_view_player.player = player
 
-        val videoID = intent.getStringExtra(Constants.VIDEO_ID)
+        val items = intent.getSerializableExtra(Constants.ITEMS_DETAILED) as Items
+
+        val videoID = items.contentDetails?.videoId
         val url = "https://www.youtube.com/watch?v=${videoID}"
 
         playVideo(url)
     }
 
     @SuppressLint("StaticFieldLeak")
-    private fun playVideo(url: String) {
-        object : YouTubeExtractor(this) {
-            override fun onExtractionComplete(ytFiles: SparseArray<YtFile>, videoMeta: VideoMeta) {
-                val videoTag = 137 // video tag for 1080p MP4
-                val audioTag = 140 // Audio tag for m4a
-                val audioSource: MediaSource =
-                    ProgressiveMediaSource.Factory(DefaultHttpDataSource.Factory())
-                        .createMediaSource(MediaItem.fromUri(ytFiles[audioTag].url))
-                val videoSource: MediaSource =
-                    ProgressiveMediaSource.Factory(DefaultHttpDataSource.Factory())
-                        .createMediaSource(MediaItem.fromUri(ytFiles[videoTag].url))
-                player!!.setMediaSource(
-                    MergingMediaSource(
-                        true,
-                        videoSource,
-                        audioSource
-                    ),
-                    true
-                )
-                player!!.prepare()
-                player!!.playWhenReady = playWhenReady
-                player!!.seekTo(currentWindow, playbackPosition)
-            }
-        }.extract(url, false, true)
-    }
+    private fun playVideo(url: String) = object : YouTubeExtractor(this) {
+        override fun onExtractionComplete(ytFiles: SparseArray<YtFile>, videoMeta: VideoMeta) {
+
+            val videoTag = 137 // video tag for 1080p MP4
+            val audioTag = 140 // Audio tag for m4a
+
+            val audioSource: MediaSource =
+                ProgressiveMediaSource.Factory(DefaultHttpDataSource.Factory())
+                    .createMediaSource(MediaItem.fromUri(ytFiles[audioTag].url))
+            val videoSource: MediaSource =
+                ProgressiveMediaSource.Factory(DefaultHttpDataSource.Factory())
+                    .createMediaSource(MediaItem.fromUri(ytFiles[videoTag].url))
+            player!!.setMediaSource(
+                MergingMediaSource(
+                    true,
+                    videoSource,
+                    audioSource
+                ),
+                true
+            )
+            player!!.prepare()
+            player!!.playWhenReady = playWhenReady
+            player!!.seekTo(currentWindow, playbackPosition)
+        }
+    }.extract(url, false, true)
 
     override fun onStart() {
         super.onStart()
@@ -107,12 +115,14 @@ class PlayerActivity : BaseActivity(R.layout.activity_player) {
     }
 
     private fun hideSystemUI() {
-        playerView?.systemUiVisibility =
-            (View.SYSTEM_UI_FLAG_LOW_PROFILE or
-                    View.SYSTEM_UI_FLAG_FULLSCREEN or
-                    View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY or
-                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
-                    View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        playerView?.let {
+            WindowInsetsControllerCompat(window, it).let { controller ->
+                controller.hide(WindowInsetsCompat.Type.statusBars() or WindowInsetsCompat.Type.navigationBars())
+                controller.systemBarsBehavior =
+                    WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+            }
+        }
     }
 
     override fun onPause() {

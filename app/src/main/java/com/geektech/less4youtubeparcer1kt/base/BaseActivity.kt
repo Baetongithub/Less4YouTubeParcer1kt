@@ -14,9 +14,9 @@ abstract class BaseActivity(private var layout: Int) : AppCompatActivity() {
         setLiveData()
     }
 
-    abstract fun setUpUI() // инициализация все view и работа с ними
+    abstract fun setUpUI()
 
-    abstract fun setLiveData() // инициализация все LiveData
+    abstract fun setLiveData()
 
     abstract fun showConnectionState()
 }

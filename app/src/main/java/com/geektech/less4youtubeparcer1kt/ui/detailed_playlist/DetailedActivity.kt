@@ -1,16 +1,15 @@
 package com.geektech.less4youtubeparcer1kt.ui.detailed_playlist
 
-import android.annotation.SuppressLint
 import android.content.Intent
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.geektech.less4youtubeparcer1kt.R
 import com.geektech.less4youtubeparcer1kt.`object`.Constants
 import com.geektech.less4youtubeparcer1kt.base.BaseActivity
+import com.geektech.less4youtubeparcer1kt.extensions.gone
 import com.geektech.less4youtubeparcer1kt.extensions.toast
 import com.geektech.less4youtubeparcer1kt.extensions.visible
+import com.geektech.less4youtubeparcer1kt.model.playlist.ItemsPlaylist
 import com.geektech.less4youtubeparcer1kt.model.playlistItems.Items
 import com.geektech.less4youtubeparcer1kt.ui.video_player.PlayerActivity
 import com.geektech.less4youtubeparcer1kt.utils.CheckConnectionState
@@ -32,11 +31,12 @@ class DetailedActivity : BaseActivity(R.layout.activity_detailed), GetItemDesc {
 
     private val viewModel: DetailedViewModel by viewModel()
 
-    @SuppressLint("RestrictedApi", "SetTextI18n")
     override fun setUpUI() {
-        toolbar_layout.title = intent.getStringExtra(Constants.KEY_TITLE)
+        val itemsPlaylist = intent.getSerializableExtra(Constants.ITEMS_PLAYLIST) as ItemsPlaylist
+
+        toolbar_layout.title = itemsPlaylist.snippet?.title
         tv_detailed_item_count.text =
-            intent.getStringExtra(Constants.KEY_ITEM_COUNT) + " " + getString(R.string.video_series)
+            (itemsPlaylist.contentDetails?.itemCount + " " + getString(R.string.video_series)).format()
 
         toolbar_layout.setCollapsedTitleTextColor(ContextCompat.getColor(this, R.color.red_dark))
         toolbar_layout.setExpandedTitleColor(ContextCompat.getColor(this, R.color.black))
@@ -51,24 +51,27 @@ class DetailedActivity : BaseActivity(R.layout.activity_detailed), GetItemDesc {
     override fun setLiveData() {
         viewModel.loading.observe(this, { progress_bar.visible = it })
 
-        val id = intent.getStringExtra(Constants.ID)
-        id?.let { it ->
-            viewModel.loadPlaylistItems(it).observe(this, { response ->
-                when (response.status) {
-                    Status.SUCCESS -> {
-                        response?.data?.items.let {
-                            it?.let { it1 -> list.addAll(it1) }
-                            viewModel.loading.postValue(false)
+        val itemsPlaylist = intent.getSerializableExtra(Constants.ITEMS_PLAYLIST) as ItemsPlaylist
+        val id = itemsPlaylist.id
+        id.let { it ->
+            if (it != null) {
+                viewModel.loadPlaylistItems(it).observe(this, { response ->
+                    when (response.status) {
+                        Status.SUCCESS -> {
+                            response?.data?.items.let {
+                                it?.let { it1 -> list.addAll(it1) }
+                                viewModel.loading.postValue(false)
+                            }
+                            setupRecyclerView()
+                            playlistItemsAdapter.notifyDataSetChanged()
+
                         }
-                        setupRecyclerView()
-                        playlistItemsAdapter.notifyDataSetChanged()
+                        Status.ERROR -> response.message?.let { toast(it) }
 
+                        Status.LOADING -> viewModel.loading.postValue(true)
                     }
-                    Status.ERROR -> response.message?.let { toast(it) }
-
-                    Status.LOADING -> viewModel.loading.postValue(true)
-                }
-            })
+                })
+            }
         }
     }
 
@@ -82,33 +85,23 @@ class DetailedActivity : BaseActivity(R.layout.activity_detailed), GetItemDesc {
     override fun showConnectionState() {
 
         val ccs = CheckConnectionState(application)
-        ccs.observe(this, { isConnected ->
-            if (isConnected) {
-                rl_connection.visibility = GONE
-                app_bar.visibility = VISIBLE
-                recycler_view_detailed.visibility = VISIBLE
-                tv_detailed_item_count.visibility = VISIBLE
-                fab.visibility = VISIBLE
-            } else {
-                rl_connection.visibility = VISIBLE
-                app_bar.visibility = GONE
-                recycler_view_detailed.visibility = GONE
-                tv_detailed_item_count.visibility = GONE
-                fab.visibility = GONE
+        ccs.observe(this, {
+            rl_connection.gone = it
+            app_bar.visible = it
+            recycler_view_detailed.visible = it
+            tv_detailed_item_count.visible = it
+            fab.visible = it
 
-            }
         })
     }
 
     override fun getDesc(items: Items) {
-        tv_toolbar_description.text = items.snippet.description
+        tv_toolbar_description.text = items.snippet?.description
     }
 
     private fun onItemClick(items: Items) {
         val intent = Intent(this, PlayerActivity::class.java)
-            .putExtra(Constants.VIDEO_ID, items.contentDetails.videoId)
-            .putExtra(Constants.KEY_TITLE_PLAYER, items.snippet.title)
-            .putExtra(Constants.KEY_DESC_PLAYER, items.snippet.description)
+            .putExtra(Constants.ITEMS_DETAILED, items)
         startActivity(intent)
     }
 }

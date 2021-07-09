@@ -1,6 +1,5 @@
 package com.geektech.less4youtubeparcer1kt.extensions
 
-import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup

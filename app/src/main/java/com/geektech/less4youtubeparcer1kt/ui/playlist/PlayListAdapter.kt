@@ -1,6 +1,5 @@
 package com.geektech.less4youtubeparcer1kt.ui.playlist
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
@@ -8,14 +7,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.geektech.less4youtubeparcer1kt.R
 import com.geektech.less4youtubeparcer1kt.extensions.glide
 import com.geektech.less4youtubeparcer1kt.extensions.inflate
-import com.geektech.less4youtubeparcer1kt.model.playlist.Items
+import com.geektech.less4youtubeparcer1kt.model.playlist.ItemsPlaylist
 import kotlinx.android.synthetic.main.item_playlist.view.*
 import kotlin.reflect.KFunction1
 
 class PlayListAdapter(
     private var context: Context,
-    private val list: MutableList<Items> = mutableListOf(),
-    private val onHolderClick: KFunction1<Items, Unit>
+    private val list: MutableList<ItemsPlaylist> = mutableListOf(),
+    private val onHolderClick: KFunction1<ItemsPlaylist, Unit>
 ) : RecyclerView.Adapter<PlayListAdapter.TheViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TheViewHolder {
@@ -37,12 +36,11 @@ class PlayListAdapter(
         private var context: Context
     ) : RecyclerView.ViewHolder(itemView) {
 
-        @SuppressLint("SetTextI18n")
-        fun onBind(items: Items) {
-            itemView.it_tv_title.text = items.snippet.title
+         fun onBind(itemsPlaylist: ItemsPlaylist) {
+            itemView.it_tv_title.text = itemsPlaylist.snippet?.title
             itemView.it_tv_video_series.text =
-                items.contentDetails.itemCount + " " + context.getString(R.string.video_series)
-           itemView.it_image_view.glide(items.snippet.thumbnails.maxres.url)
+                (itemsPlaylist.contentDetails?.itemCount + " " + context.getString(R.string.video_series)).format()
+             itemsPlaylist.snippet?.thumbnails?.maxres?.url?.let { itemView.it_image_view.glide(it) }
             itemView.it_tv_playlist.text = context.getString(R.string.playlist)
         }
     }
