@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.geektech.less4youtubeparcer1kt">
+    package="com.youtube.youtubeparcer">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -9,28 +9,23 @@
     <application
         android:name=".App"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_youtube_96"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Less4YouTubeParcer1kt"
-        android:usesCleartextTraffic="true"
-        tools:ignore="AllowBackup"
-        tools:targetApi="m">
-        <activity android:name=".ui.playlist.PlayListActivity">
+        tools:ignore="AllowBackup">
+        <activity
+            android:name="com.youtube.youtubeparcer.ui.main.PlayListActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".base.BaseActivity"
-            tools:ignore="Instantiatable" />
-        <activity android:name=".ui.detailed_playlist.DetailedActivity">
-        </activity>
-        <activity android:name=".ui.video_player.PlayerActivity">
-        </activity>
+        <activity android:name="com.youtube.youtubeparcer.ui.detailed_playlist.DetailedActivity" />
+        <activity android:name="com.youtube.youtubeparcer.ui.player.PlayerActivity" />
 
         <meta-data
             android:name="preloaded_fonts"

@@ -3,9 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
     android:padding="5dp"
-    tools:context=".ui.playlist.PlayListActivity">
+    tools:context=".ui.main.PlayListActivity">
 
     <ImageView
         android:id="@+id/image_ccs"
@@ -14,7 +13,8 @@
         android:layout_marginTop="200dp"
         android:scaleType="center"
         android:src="@mipmap/image"
-        android:visibility="gone" />
+        android:visibility="gone"
+        tools:ignore="ContentDescription" />
 
     <!-- No Internet Connection -->
     <TextView
@@ -42,17 +42,11 @@
         android:textAllCaps="false"
         android:visibility="gone" />
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_refresh_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:listitem="@layout/item_playlist" />
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <ProgressBar
         android:id="@+id/progress_bar"
@@ -62,6 +56,5 @@
         android:indeterminateTint="@android:color/holo_red_light"
         android:visibility="gone"
         tools:visibility="visible" />
-
 
 </RelativeLayout>
