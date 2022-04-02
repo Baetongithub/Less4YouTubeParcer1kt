@@ -81,7 +81,7 @@ class DetailedActivity : BaseActivity<ActivityDetailedBinding>(ActivityDetailedB
         }
     }
 
-    override fun showConnectionState() {
+    override fun checkConnectionState() {
 
         val ccs = CheckConnectionState(application)
         ccs.observe(this, {

@@ -19,7 +19,6 @@ class PlayListActivity : BaseActivity<ActivityPlayListBinding>(ActivityPlayListB
     private val list = mutableListOf<ItemsPlaylist>()
     private val playListAdapter: PlayListAdapter by lazy {
         PlayListAdapter(
-            this,
             list,
             this::onHolderClick
         )
@@ -34,9 +33,8 @@ class PlayListActivity : BaseActivity<ActivityPlayListBinding>(ActivityPlayListB
     }
 
     private fun setupRecyclerView() {
-        //   vb.swipeRefreshLayout.isRefreshing = true
+        //vb.swipeRefreshLayout.isRefreshing = false
         vb.recyclerView.apply {
-            // visibility = View.VISIBLE
             layoutManager = LinearLayoutManager(context)
             adapter = playListAdapter
 
@@ -45,44 +43,37 @@ class PlayListActivity : BaseActivity<ActivityPlayListBinding>(ActivityPlayListB
 
     override fun setLiveData() {
 
-        viewModel.loading.observe(this, {
-            vb.progressBar.visible = it
-        })
+        viewModel.loading.observe(this, { vb.progressBar.visible = it })
 
-        //  vb.swipeRefreshLayout.isRefreshing = true
+       // vb.swipeRefreshLayout.isRefreshing = true
         viewModel.loadAllPlaylist().observe(this, { response ->
             when (response.status) {
                 Status.SUCCESS -> {
+                  //  vb.swipeRefreshLayout.isRefreshing = false
                     if (response.data?.items != null)
                         list.addAll(response.data.items)
                     viewModel.loading.postValue(false)
-//                    list.add(ItemsPlaylist(id = "Some String значение"))
-//                    list.add(ItemsPlaylist(id = "Some String значение"))
-//                    list.add(ItemsPlaylist(id = "Some String значение"))
 
                     setupRecyclerView()
                 }
-                Status.ERROR -> response.message?.let { toast(it) }
+                Status.ERROR -> toast(response.message.toString())
 
-                Status.LOADING -> {
-
-                    viewModel.loading.postValue(true)
-                }
+                Status.LOADING -> viewModel.loading.postValue(true)
             }
         })
     }
 
-    override fun showConnectionState() {
+    override fun checkConnectionState() {
 
         val ccs = CheckConnectionState(application)
         ccs.observe(this, {
-            // vb.swipeRefreshLayout.isRefreshing = it
+            //vb.swipeRefreshLayout.isRefreshing = it
             vb.tvNoInternet.gone = it
             vb.imageCcs.gone = it
             vb.button.gone = it
             vb.recyclerView.visible = it
 //            if (vb.recyclerView.visible)
-////                vb.swipeRefreshLayout.isRefreshing = false
+//                vb.swipeRefreshLayout.isRefreshing = false
         })
     }
 

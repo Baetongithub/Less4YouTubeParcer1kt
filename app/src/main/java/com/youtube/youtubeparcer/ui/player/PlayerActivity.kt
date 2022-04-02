@@ -133,7 +133,7 @@ class PlayerActivity : BaseActivity<ActivityPlayerBinding>(ActivityPlayerBinding
 
     }
 
-    override fun showConnectionState() {
+    override fun checkConnectionState() {
 
     }
 }

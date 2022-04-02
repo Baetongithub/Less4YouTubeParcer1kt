@@ -11,7 +11,6 @@ import com.youtube.youtubeparcer.extensions.glide
 import kotlin.reflect.KFunction1
 
 class PlayListAdapter(
-    private var context: Context,
     private val list: MutableList<ItemsPlaylist>,
     private val onHolderClick: KFunction1<ItemsPlaylist, Unit>
 ) : RecyclerView.Adapter<PlayListAdapter.TheViewHolder>() {
@@ -22,7 +21,7 @@ class PlayListAdapter(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
-            ), context
+            ), parent.context
         )
     }
 
@@ -47,6 +46,7 @@ class PlayListAdapter(
                 (itemsPlaylist.contentDetails?.itemCount + " " + context.getString(R.string.video_series))
 
             playListBinding.itImageView.glide(itemsPlaylist.snippet?.thumbnails?.maxres?.url)
+            playListBinding.itTvPlaylist.text = context.getString(R.string.playlist)
         }
     }
 }

@@ -15,7 +15,7 @@ abstract class BaseActivity<VB : ViewBinding>(private val viewBinding: (LayoutIn
         super.onCreate(savedInstanceState)
         binding = viewBinding.invoke(layoutInflater)
         setContentView(vb.root)
-        showConnectionState()
+        checkConnectionState()
         setUpUI()
         setLiveData()
     }
@@ -24,5 +24,5 @@ abstract class BaseActivity<VB : ViewBinding>(private val viewBinding: (LayoutIn
 
     abstract fun setLiveData()
 
-    abstract fun showConnectionState()
+    abstract fun checkConnectionState()
 }
