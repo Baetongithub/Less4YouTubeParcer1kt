@@ -1,1 +1,1 @@
-## __YouTube API uses Retrofit via MVVM__
+## __YouTube API uses ExoPlayer, Retrofit via MVVM__
