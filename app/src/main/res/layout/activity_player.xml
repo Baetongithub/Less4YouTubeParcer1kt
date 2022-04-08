@@ -67,15 +67,20 @@
         android:textSize="15sp"
         app:drawableEndCompat="@drawable/ic_baseline_download_for_offline_24" />
 
-    <TextView
-        android:id="@+id/tv_player_description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_below="@id/tv_player_download"
-        android:layout_margin="@dimen/text_margin"
-        android:autoLink="all"
-        android:text="@string/description"
-        android:textColorLink="@color/link_color"
-        android:textSize="15sp" />
+        android:foregroundGravity="fill">
 
+        <TextView
+            android:id="@+id/tv_player_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:autoLink="all"
+            android:text="@string/description"
+            android:textColorLink="@color/link_color"
+            android:textSize="15sp" />
+    </ScrollView>
 </RelativeLayout>
